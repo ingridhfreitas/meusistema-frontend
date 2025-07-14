@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Form,
@@ -7,12 +7,19 @@ import {
   Row,
   Col,
   Button,
+  Modal,
 } from "react-bootstrap";
-import { FaQuestionCircle } from "react-icons/fa";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaCheckCircle, FaQuestionCircle } from "react-icons/fa";
 import axios from "axios";
 
 const FornecedorForm = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const navigate = useNavigate();
+
+  const [modalAberto, setModalAberto] = useState(false);
+
   const [fornecedor, setFornecedor] = useState({
     nome: "",
     email: "",
@@ -67,14 +74,17 @@ const FornecedorForm = () => {
     };
 
     axios
-      .post("http://localhost:3000/fornecedores", fornecedorData)
-      .then((response) => console.log("Fornecedor cadastrado com sucesso"))
+      .post(`${apiUrl}/fornecedores`, fornecedorData)
+      .then((response) => {
+        console.log("Fornecedor cadastrado com sucesso: ", response);
+        setModalAberto(true);
+      })
       .catch((error) => console.error("Erro ao cadastrar fornecedor: ", error));
   };
 
   return (
     <Container className="mt-4">
-      <h2 className="mb-4 d-flex align-itens-center">
+      <h2 className="mb-4 d-flex align-items-center">
         {/*Adicionar, depois Editar*/}
         Adicionar fornecedor:
         <OverlayTrigger
@@ -245,6 +255,33 @@ const FornecedorForm = () => {
           Enviar
         </Button>
       </Form>
+
+{/*Modal de sucesso*/}
+  <Modal
+    show={modalAberto}
+    onHide={() => {
+      setModalAberto(false);
+      navigate("/listar-fornecedores");
+    }}
+  >
+    <Modal.Header closeButton>
+      <Modal.Title>
+        <FaCheckCircle className="text-success me-2" />
+        Sucesso!
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      Fornecedor adicionado com sucesso!
+    </Modal.Body>
+    <Modal.Footer>
+      <Button
+        variant="success"
+        onClick={() => navigate("/listar-fornecedores")}
+      >
+        Fechar
+      </Button>
+    </Modal.Footer>
+  </Modal>
     </Container>
   );
 };

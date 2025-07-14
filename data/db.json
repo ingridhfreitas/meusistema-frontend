@@ -16,6 +16,23 @@
         "estado": "Paraíba",
         "pais": "Brasil"
       }
+    },
+    {
+      "id": "e7a7",
+      "nome": "fornecedor 12345 ltd",
+      "email": "1234@gmal.com",
+      "cnpj": "372832183762138621",
+      "tipoFornecedor": "COMUM",
+      "endereco": {
+        "cep": "58035030",
+        "logradouro": "Avenida Presidente Afonso Pena",
+        "numero": "11111",
+        "complemento": "",
+        "bairro": "Bessa",
+        "cidade": "João Pessoa",
+        "estado": "Paraíba",
+        "pais": "Brasil"
+      }
     }
   ],
   "produtos": [],
