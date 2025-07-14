@@ -1,10 +1,10 @@
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Inicial from "./pages/Inicial";
 import FornecedorForm from "./pages/Fornecedor/FornecedorForm";
 import Menu from "./components/Menu";
-
-import "bootstrap/dist/css/bootstrap.min.css";
+import FornecedorList from "./pages/Fornecedor/FornecedorList";
 
 const App = () => {
   return (
@@ -13,6 +13,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Inicial />} />
         <Route path="/cadastrar-fornecedor" element={<FornecedorForm />} />
+        <Route path="/listar-fornecedores" element={<FornecedorList />} />
       </Routes>
     </BrowserRouter>
   );
