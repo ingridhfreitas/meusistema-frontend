@@ -2,17 +2,26 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
+  Modal,
   OverlayTrigger,
   Table,
   Tooltip,
 } from "react-bootstrap";
-import { FaQuestionCircle, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import {
+  FaQuestionCircle,
+  FaPlus,
+  FaEdit,
+  FaTrash,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const FornecedorList = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [fornecedores, setFornecedores] = useState([]);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [fornecedorSelecionado, setFornecedorSelecionado] = useState(null);
 
   useEffect(() => {
     axios
@@ -22,6 +31,27 @@ const FornecedorList = () => {
         console.error("Erro ao carregar fornecedores: ", error)
       );
   }, []);
+
+  const fecharModal = () => {
+    setModalAberto(false);
+    setFornecedorSelecionado(null);
+  };
+
+  const abrirModal = (fornecedor) => {
+    setFornecedorSelecionado(fornecedor);
+    setModalAberto(true);
+  };
+
+  const removerFornecedor = () => {
+    axios
+      .delete(`${apiUrl}/fornecedores/${fornecedorSelecionado.id}`)
+      .then(() => {
+        setFornecedores((prev) =>
+          prev.filter((f) => f.id !== fornecedorSelecionado.id)
+        );
+        fecharModal();
+      });
+  };
 
   return (
     <Container className="mt-5">
@@ -62,7 +92,12 @@ const FornecedorList = () => {
                 <Button variant="warning" size="sm" className="me-2">
                   <FaEdit className="me-1" /> Editar
                 </Button>
-                <Button variant="danger" size="sm" className="me-2">
+                <Button
+                  variant="danger"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => abrirModal(fornecedor)}
+                >
                   <FaTrash className="me-1" /> Excluir
                 </Button>
               </td>
@@ -70,6 +105,27 @@ const FornecedorList = () => {
           ))}
         </tbody>
       </Table>
+
+      <Modal show={modalAberto} onHide={fecharModal} centered>
+        <Modal.Header>
+          <Modal.Title>
+            <FaExclamationTriangle className="text-danger me-2" />
+            Confirmar exclusão
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Tem certeza que deseja excluir o fornecedor:{" "}
+          <strong>{fornecedorSelecionado?.nome}</strong>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secundary" onClick={fecharModal}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={removerFornecedor}>
+            Excluir
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

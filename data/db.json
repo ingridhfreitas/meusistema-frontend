@@ -1,23 +1,6 @@
 {
   "fornecedores": [
     {
-      "id": "4ed0",
-      "nome": "Emp",
-      "email": "emp@gmail.com",
-      "cnpj": "27966680000159",
-      "tipoFornecedor": "COMUM",
-      "endereco": {
-        "cep": "58035-030",
-        "logradouro": "Avenida Presidente Afonso Pena",
-        "numero": "1129",
-        "complemento": "casa ",
-        "bairro": "Bessa",
-        "cidade": "João Pessoa",
-        "estado": "Paraíba",
-        "pais": "Brasil"
-      }
-    },
-    {
       "id": "e7a7",
       "nome": "fornecedor 12345 ltd",
       "email": "1234@gmal.com",
