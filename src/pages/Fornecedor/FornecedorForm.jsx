@@ -9,11 +9,26 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaCheckCircle, FaQuestionCircle } from "react-icons/fa";
 import axios from "axios";
 
 const FornecedorForm = () => {
+  //Verificando se existe o id na url
+  const { id } = useParams();
+
+  //useEffect para carregar as informaçoes para editar
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`${apiUrl}/fornecedores/${id}`)
+        .then((response) => setFornecedor(response.data))
+        .catch((error) =>
+          console.error(`Houve um erro ao carregar o fornecedor: `, error)
+        );
+    }
+  }, [id]);
+
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const navigate = useNavigate();
@@ -73,20 +88,30 @@ const FornecedorForm = () => {
       cnpj: fornecedor.cnpj.replace(/[^\d]/g, ""),
     };
 
-    axios
+    const request = id
+      ? axios.put(`${apiUrl}/fornecedores/${id}`, fornecedorData)
+      : axios.post(`${apiUrl}/fornecedores/`, fornecedorData);
+
+    request
+      .then(() => setModalAberto(true))
+      .catch((error) =>
+        console.error(`Erro ao cadastrar/editar fornecededor: `, error)
+      );
+
+    /*    axios
       .post(`${apiUrl}/fornecedores`, fornecedorData)
       .then((response) => {
         console.log("Fornecedor cadastrado com sucesso: ", response);
         setModalAberto(true);
       })
-      .catch((error) => console.error("Erro ao cadastrar fornecedor: ", error));
+      .catch((error) => console.error("Erro ao cadastrar fornecedor: ", error)); */
   };
 
   return (
     <Container className="mt-4">
       <h2 className="mb-4 d-flex align-items-center">
-        {/*Adicionar, depois Editar*/}
-        Adicionar fornecedor:
+        {id ? "Editar fornecedor" : "Adicionar fornecedor"}
+
         <OverlayTrigger
           placement="right"
           overlay={<Tooltip>Preencha os dados do fornecedor</Tooltip>}
@@ -256,32 +281,30 @@ const FornecedorForm = () => {
         </Button>
       </Form>
 
-{/*Modal de sucesso*/}
-  <Modal
-    show={modalAberto}
-    onHide={() => {
-      setModalAberto(false);
-      navigate("/listar-fornecedores");
-    }}
-  >
-    <Modal.Header closeButton>
-      <Modal.Title>
-        <FaCheckCircle className="text-success me-2" />
-        Sucesso!
-      </Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      Fornecedor adicionado com sucesso!
-    </Modal.Body>
-    <Modal.Footer>
-      <Button
-        variant="success"
-        onClick={() => navigate("/listar-fornecedores")}
+      {/*Modal de sucesso*/}
+      <Modal
+        show={modalAberto}
+        onHide={() => {
+          setModalAberto(false);
+          navigate("/listar-fornecedores");
+        }}
       >
-        Fechar
-      </Button>
-    </Modal.Footer>
-  </Modal>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <FaCheckCircle className="text-success me-2" />
+            Sucesso!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Fornecedor adicionado com sucesso!</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="success"
+            onClick={() => navigate("/listar-fornecedores")}
+          >
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
