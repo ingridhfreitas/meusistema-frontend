@@ -97,14 +97,6 @@ const FornecedorForm = () => {
       .catch((error) =>
         console.error(`Erro ao cadastrar/editar fornecededor: `, error)
       );
-
-    /*    axios
-      .post(`${apiUrl}/fornecedores`, fornecedorData)
-      .then((response) => {
-        console.log("Fornecedor cadastrado com sucesso: ", response);
-        setModalAberto(true);
-      })
-      .catch((error) => console.error("Erro ao cadastrar fornecedor: ", error)); */
   };
 
   return (
