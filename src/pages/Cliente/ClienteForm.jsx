@@ -1,10 +1,24 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { Container } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  OverlayTrigger,
+  Tooltip,
+  Row,
+  Col,
+  Button,
+  Modal,
+} from "react-bootstrap";
+import { FaQuestionCircle, FaCheckCircle } from "react-icons/fa";
 
 const ClienteForm = () => {
+  const [modalAberto, setModalAberto] = useState(false);
+
+  const navigate = useNavigate();
+
   //Verificando se existe o id na url
   const { id } = useParams();
 
@@ -71,7 +85,174 @@ const ClienteForm = () => {
     <Container className="mt-4">
       <h2 className="mb-4 d-flex align-items-center">
         {id ? "Editar cliente" : "Cadastrar cliente"}
+        <OverlayTrigger
+          placement="right"
+          overlay={<Tooltip>Preencha os dados do cliente</Tooltip>}
+        >
+          <span className="ms-2" style={{ cursor: "pointer" }}>
+            <FaQuestionCircle></FaQuestionCircle>
+          </span>
+        </OverlayTrigger>
       </h2>
+      <Form>
+        <Form.Group className="mb-3">
+          <Form.Label>Nome</Form.Label>
+          <Form.Control
+            required
+            value={cliente.nome}
+            onChange={(e) => setCliente({ ...cliente, nome: e.target.value })}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>E-mail</Form.Label>
+          <Form.Control
+            type="email"
+            required
+            value={cliente.email}
+            onChange={(e) => setCliente({ ...cliente, email: e.target.value })}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Telefone</Form.Label>
+          <Form.Control
+            type="text"
+            required
+            value={cliente.telefone}
+            onChange={(e) =>
+              setCliente({ ...cliente, telefone: e.target.value })
+            }
+          />
+        </Form.Group>
+
+        <Row>
+          <Col md={4}>
+            <Form.Group className="mb-3">
+              <Form.Label>CEP</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ex.:58000-000"
+                value={cliente.endereco.cep}
+                onChange={handleCepChange}
+                autoComplete="off"
+                required
+              />
+            </Form.Group>
+          </Col>
+
+          <Col md={8}>
+            <Form.Group className="mb-3">
+              <Form.Label>Logradouro</Form.Label>
+              <Form.Control
+                type="text"
+                value={cliente.endereco.logradouro}
+                onChange={(e) => handleEndereco("logradouro", e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={4}>
+            <Form.Group className="mb-3">
+              <Form.Label>Número</Form.Label>
+              <Form.Control
+                type="text"
+                value={cliente.endereco.numero}
+                onChange={(e) => handleEndereco("numero", e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col md={8}>
+            <Form.Group className="mb-3">
+              <Form.Label>Complemento</Form.Label>
+              <Form.Control
+                type="text"
+                value={cliente.endereco.complemento}
+                onChange={(e) => handleEndereco("complemento", e.target.value)}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={6}>
+            <Form.Group className="mb-3">
+              <Form.Label>Bairro</Form.Label>
+              <Form.Control
+                type="text"
+                value={cliente.endereco.bairro}
+                onChange={(e) => handleEndereco("bairro", e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="mb-3">
+              <Form.Label>Cidade</Form.Label>
+              <Form.Control
+                type="text"
+                value={cliente.endereco.cidade}
+                onChange={(e) => handleEndereco("cidade", e.target.value)}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={6}>
+            <Form.Group className="mb-3">
+              <Form.Label>Estado</Form.Label>
+              <Form.Control
+                type="text"
+                value={cliente.endereco.estado}
+                onChange={(e) => handleEndereco("estado", e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="mb-3">
+              <Form.Label>País</Form.Label>
+              <Form.Control
+                type="text"
+                value={cliente.endereco.pais}
+                onChange={(e) => handleEndereco("pais", e.target.value)}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Button type="submit" variant="success">
+          Salvar
+        </Button>
+      </Form>
+
+      <Modal
+        show={modalAberto}
+        onHide={() => {
+          setModalAberto(false);
+          navigate("/listar-fornecedores");
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <FaCheckCircle className="text-success me-2" />
+            Sucesso!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Cliente adicionado com sucesso!</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="success"
+            onClick={() => navigate("/listar-fornecedores")}
+          >
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
