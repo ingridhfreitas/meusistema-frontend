@@ -36,5 +36,22 @@
     }
   ],
   "produtos": [],
-  "clientes": []
+  "clientes": [
+    {
+      "id": "569f",
+      "nome": "testeeeeeeeee",
+      "email": "teste@gmail.com",
+      "telefone": "998877612222",
+      "endereco": {
+        "cep": "58035030",
+        "logradouro": "Avenida Presidente Afonso Pena",
+        "numero": "1129",
+        "complemento": "",
+        "bairro": "Bessa",
+        "cidade": "João Pessoa",
+        "estado": "Paraíba",
+        "pais": "Brasil"
+      }
+    }
+  ]
 }

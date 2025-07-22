@@ -94,7 +94,7 @@ const ClienteForm = () => {
           </span>
         </OverlayTrigger>
       </h2>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Nome</Form.Label>
           <Form.Control
@@ -247,7 +247,7 @@ const ClienteForm = () => {
         <Modal.Footer>
           <Button
             variant="success"
-            onClick={() => navigate("/listar-fornecedores")}
+            onClick={() => navigate("/listar-clientes")}
           >
             Fechar
           </Button>
