@@ -26,6 +26,7 @@ const ClienteForm = () => {
   const [cliente, setCliente] = useState({
     nome: "",
     email: "",
+    cpf: "",
     telefone: "",
     endereco: {
       cep: "",
@@ -67,6 +68,17 @@ const ClienteForm = () => {
     }
   }, [cliente.endereco.cep]);
 
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`${apiUrl}/clientes/${id}`)
+        .then((response) => setCliente(response.data))
+        .catch((error) =>
+          console.error(`Houve um erro ao carregar o cliente: `, error)
+        );
+    }
+  }, [id]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -101,6 +113,15 @@ const ClienteForm = () => {
             required
             value={cliente.nome}
             onChange={(e) => setCliente({ ...cliente, nome: e.target.value })}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>CPF</Form.Label>
+          <Form.Control
+            required
+            value={cliente.cpf}
+            onChange={(e) => setCliente({ ...cliente, cpf: e.target.value })}
           />
         </Form.Group>
 
@@ -243,7 +264,12 @@ const ClienteForm = () => {
             Sucesso!
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Cliente adicionado com sucesso!</Modal.Body>
+        <Modal.Body>
+          {id
+            ? "Cliente editado com sucesso!"
+            : "Cliente adicionado com sucesso!"}
+          Cliente adicionado com sucesso!
+        </Modal.Body>
         <Modal.Footer>
           <Button
             variant="success"

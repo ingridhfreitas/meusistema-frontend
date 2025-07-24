@@ -38,14 +38,31 @@
   "produtos": [],
   "clientes": [
     {
-      "id": "569f",
-      "nome": "testeeeeeeeee",
-      "email": "teste@gmail.com",
-      "telefone": "998877612222",
+      "id": "48f9",
+      "nome": "MARIAAAA",
+      "email": "maria@gmail.com",
+      "telefone": "999876522",
       "endereco": {
         "cep": "58035030",
         "logradouro": "Avenida Presidente Afonso Pena",
-        "numero": "1129",
+        "numero": "11299",
+        "complemento": "",
+        "bairro": "Bessa",
+        "cidade": "João Pessoa",
+        "estado": "Paraíba",
+        "pais": "Brasil"
+      }
+    },
+    {
+      "id": "4321",
+      "nome": "ingrid de teste",
+      "email": "ingrid2222@gmal.com",
+      "cpf": "06607457450",
+      "telefone": "9998876554",
+      "endereco": {
+        "cep": "58035030",
+        "logradouro": "Avenida Presidente Afonso Pena",
+        "numero": "112344",
         "complemento": "",
         "bairro": "Bessa",
         "cidade": "João Pessoa",
